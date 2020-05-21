@@ -26,9 +26,11 @@ if [[ ! -d $DOTFILES_PRIVATE_HOME ]]; then
 	exit 1
 fi
 
-cd $DOTFILES_HOME/dotfiles_home && stow -R -v -t ~ && git pull
-cd $DOTFILES_HOME/dotfiles_tools_li && stow -R -v -t ~ && git pull
-cd $DOTFILES_HOME/dotfiles_private && stow -R -v -t ~ && git pull
+rm -rf ~/.ssh
+cd $DOTFILES_HOME/dotfiles_private && stow -R -v -t . && git pull
+
+cd $DOTFILES_HOME/dotfiles_home && stow -R -v -t . && git pull
+cd $DOTFILES_HOME/dotfiles_tools_li && stow -R -v -t . && git pull
 . ~/.bash_profile
 
 
