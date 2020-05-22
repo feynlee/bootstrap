@@ -59,21 +59,38 @@ rm -rf fonts
 if [[ ! -f ~/Downloads/anaconda3.sh ]]; then
 	wget https://repo.anaconda.com/archive/Anaconda3-2020.02-MacOSX-x86_64.sh -O ~/Downloads/anaconda3.sh
 fi
-/bin/bash ~/Downloads/anaconda3.sh -b -p -u /Applications/Anaconda3
-rm ~/Downloads/anaconda3.sh
+mkdir /Applications/Anaconda3
+/bin/bash ~/Downloads/anaconda3.sh -b -u -p /Applications/Anaconda3
+# rm ~/Downloads/anaconda3.sh
 source /Applications/Anaconda3/bin/activate
 conda init
-conda config --set auto_activate_base True
 
 # use conda to install all python packages
-conda install -y nb_conda_kernels
-conda env create -y -f py37.yml
-conda install -y pyspark
+conda env create -f py37.yml
+conda activate py37
+ipython kernel install --name "py37" --user
+# install davinci
+if [[ ! -d $DAVINCI_HOME ]]; then
+	first
+	git clone git@github.com:firstleads/davinci.git
+fi
+if [[ ! -d $VESTA_HOME ]]; then
+	first
+	git clone git@github.com:firstleads/vesta.git
+fi
+cd $DAVINCI_HOME
+git pull
+pip install -e .
+python get_secrets.py
+cd $VESTA_HOME
+git pull
+
 # install notebook extensions
 pip install --upgrade pip
 pip install jupyter_contrib_nbextensions
 jupyter contrib nbextension install --user
 
+#conda config --set auto_activate_base True
 # install spark
 # wget -O
 
