@@ -90,6 +90,9 @@ pip install --upgrade pip
 pip install jupyter_contrib_nbextensions
 jupyter contrib nbextension install --user
 
+# enable key repeating
+defaults write -g ApplePressAndHoldEnabled -bool false
+
 #conda config --set auto_activate_base True
 # install spark
 # wget -O
